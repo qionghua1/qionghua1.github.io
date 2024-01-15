@@ -1,0 +1,1035 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="类欧几里得算法 参考资料：  数论笔记：类欧几里得算法的盛宴 - Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客 (luogu.com.cn) 数论笔记：且听鹤鸣于九皋，类欧几里得算法进阶 - Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客 (luogu.com.cn)  给定 \(a, b, c, n\) ，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类欧几里得算法">
+<meta property="og:url" content="http://example.com/2024/01/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="类欧几里得算法 参考资料：  数论笔记：类欧几里得算法的盛宴 - Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客 (luogu.com.cn) 数论笔记：且听鹤鸣于九皋，类欧几里得算法进阶 - Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客 (luogu.com.cn)  给定 \(a, b, c, n\) ，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-15T07:14:52.000Z">
+<meta property="article:modified_time" content="2024-01-15T07:15:08.941Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>类欧几里得算法 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>qionghua</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/xianjian.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="类欧几里得算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-15 15:14" pubdate>
+          2024年1月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">类欧几里得算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="类欧几里得算法">类欧几里得算法</h1>
+<p>参考资料：</p>
+<ol type="1">
+<li><a
+target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/LinearExpectation/Akin-Euclidean-algorithm-Basis">数论笔记：类欧几里得算法的盛宴
+- Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客
+(luogu.com.cn)</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/LinearExpectation/Akin-Euclidean-algorithm-Advanced">数论笔记：且听鹤鸣于九皋，类欧几里得算法进阶
+- Aw顿顿の小窝 · Linear Expectation 线性期望 - 洛谷博客
+(luogu.com.cn)</a></li>
+</ol>
+<p>给定 <span class="math inline">\(a, b, c, n\)</span> ，通过 <span
+class="math inline">\(O(logn)\)</span> 的复杂度求解下面的公式： <span
+class="math display">\[
+\sum_{x=0}^n \ \bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span>
+从几何的角度来理解就是<strong>“求直线在给定区间下包含整点的个数”</strong></p>
+<p>在欧几里得算法中，计算 <span class="math inline">\(gcd\)</span>
+时选择用函数的形式进行处理，在这里也采取同样的方式，将上述公式写成普通函数的形式：
+<span class="math display">\[
+f(a,b,c,n)=\sum_{x=0}^n \ \bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span> 那么接下来的任务就是化简。</p>
+<h5 id="取模化简">取模化简</h5>
+<p>取模化简的目的在于将 <span class="math inline">\(a \geq c\)</span> 或
+<span class="math inline">\(b\geq c\)</span> 的情况转化为 <span
+class="math inline">\(a&lt;c,\ b&lt;c\)</span> 的情况。</p>
+<p>首先，我们对 <span class="math inline">\(a\)</span> 和 <span
+class="math inline">\(b\)</span> 均进行下面的处理方式： <span
+class="math display">\[
+a=(a\ mod\ c) + (a-a\ mod\ c)\\
+b=(b\ mod\ c) + (b-b\ mod\ c)
+\]</span> 因此函数就被转化为： <span class="math display">\[
+f(a,b,c,n)=\sum_{x=0}^n \ \bigg\lfloor \frac{(a\ mod\ c)x + (a-a\ mod\
+c)x+(b\ mod\ c) + (b-b\ mod\ c)}{c} \bigg\rfloor
+\]</span> 观察可以发现，<span class="math inline">\((a-a\ mod\
+c)\)</span> 和 <span class="math inline">\((b-b\ mod\ c)\)</span>
+都是能整除 <span class="math inline">\(c\)</span>
+的部分，将这两部分提取出来可以得到： <span class="math display">\[
+f(a,b,c,n)=\sum_{x=0}^n \ \bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\
+c)}{c} \bigg\rfloor+\frac{(a-a\ mod\ c)x}{c}+\frac{(b-b\ mod\ c)}{c}
+\]</span> 利用计算机整除为下取整的性质，进一步将函数化简成： <span
+class="math display">\[
+f(a,b,c,n)=\sum_{x=0}^n \ \bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\
+c)}{c} \bigg\rfloor+\bigg\lfloor\frac{a}{c} \bigg\rfloor
+x+\bigg\lfloor\frac{b}{c} \bigg\rfloor
+\]</span>
+因此，后两项就能从求和公式中提取出来，前者利用等差数列求和公式进行提取，最终得到：
+<span class="math display">\[
+f(a,b,c,n)=\frac{n(n+1)}{2}\times\bigg\lfloor\frac{a}{c} \bigg\rfloor +
+(n+1)\times\bigg\lfloor\frac{b}{c} \bigg\rfloor + \sum_{x=0}^n \
+\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\ c)}{c} \bigg\rfloor
+\]</span>
+这是我们可以发现，求和部分和函数定义是完全一样的，因此将其写成函数形式：
+<span class="math display">\[
+f(a,b,c,n)=\frac{n(n+1)}{2}\times\bigg\lfloor\frac{a}{c} \bigg\rfloor +
+(n+1)\times\bigg\lfloor\frac{b}{c} \bigg\rfloor + f(a\ mod\ c,b\ mod\
+c,c,n)
+\]</span> 这样子，就能将函数的情况转化为 <span
+class="math inline">\(a&lt;c,\ b&lt;c\)</span> 的情况。</p>
+<h5 id="贡献化简">贡献化简</h5>
+<p>首先还是这个式子： <span class="math display">\[
+\sum_{x=0}^n \ \bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span> 那么对于这个式子来讲，<span class="math inline">\(x\leq
+n\)</span> 是条件，而 <span class="math inline">\(\lfloor \frac{ax+b}{c}
+\rfloor\)</span> 是这个循环的贡献。</p>
+<p>因此，对于后者 <span class="math inline">\(\lfloor \frac{ax+b}{c}
+\rfloor\)</span>
+，考虑也采用这样记录贡献的方式，将式子本身作为条件，而循环的贡献为 <span
+class="math inline">\(1\)</span>，即原式子化为： <span
+class="math display">\[
+\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor=\sum_{j=0}^{\lfloor
+\frac{ax+b}{c} \rfloor-1}1
+\]</span> 减 <span class="math inline">\(1\)</span> 的原因在于 <span
+class="math inline">\(j\)</span> 是从 <span
+class="math inline">\(0\)</span> 开始进行循环的。</p>
+<p>最终原式子就变成了： <span class="math display">\[
+\sum_{x=0}^n \sum_{j=0}^{\lfloor \frac{ax+b}{c} \rfloor-1}1
+\]</span> 通过观察得到，<span class="math inline">\(j\)</span>
+的上界只受到 <span class="math inline">\(x\)</span> 的限制，同样的 <span
+class="math inline">\(x\)</span> 的上界只受到 <span
+class="math inline">\(n\)</span> 的限制，因此在这里可以选择调换 <span
+class="math inline">\(j\)</span> 和 <span
+class="math inline">\(x\)</span> 的位置使得两者都被 <span
+class="math inline">\(n\)</span> 限制且不影响结果，最后原式子变成：
+<span class="math display">\[
+\sum_{j=0}^{\lfloor \frac{an+b}{c} \rfloor-1}\sum_{x=0}^n\
+\bigg[j&lt;\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor\bigg]
+\]</span> 这时候，观察逻辑表达式的部分，并尝试对其进行化简： <span
+class="math display">\[
+j&lt;\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span> 由于两者都是整数，因此两者差距至少为 <span
+class="math inline">\(1\)</span>，因此转化为如下式子： <span
+class="math display">\[
+j+1\leq\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span> 同时下取整的结果一定满足小于等于原数，即： <span
+class="math display">\[
+j+1\leq\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor\leq \frac{ax+b}{c}
+\]</span> 那么原不等式变成了： <span class="math display">\[
+j+1\leq \frac{ax+b}{c}
+\]</span> 在进行恒等变形得到： <span class="math display">\[
+cj+c-b\leq ax
+\]</span> 同样的，在不等式左边减去一个 <span
+class="math inline">\(1\)</span> ，小于等于号变为小于号，不等式变为：
+<span class="math display">\[
+cj+c-b-1&lt;ax
+\]</span> 再次进行恒等变形： <span class="math display">\[
+\frac{cj+c-b-1}{a}&lt;x
+\]</span> 取下取整： <span class="math display">\[
+\bigg\lfloor \frac{cj+c-b-1}{a} \bigg\rfloor&lt;x
+\]</span> 也就是说，我们将原先的逻辑表达式替换成了有关于 <span
+class="math inline">\(x\)</span> 的逻辑表达式，那么原式变成了： <span
+class="math display">\[
+\sum_{j=0}^{\lfloor \frac{an+b}{c} \rfloor-1}\sum_{x=0}^n\ \bigg[x &gt;
+\bigg\lfloor \frac{cj+c-b-1}{a} \bigg\rfloor\bigg]
+\]</span> 令 <span class="math inline">\(m=\big\lfloor
+\frac{an+b}{c}\big\rfloor\)</span>，同时也可以发现关于 <span
+class="math inline">\(x\)</span> 的求和部分可以进行化简： <span
+class="math display">\[
+\sum_{j=0}^{m-1}\ \bigg(n- \bigg\lfloor \frac{cj+c-b-1}{a}
+\bigg\rfloor\bigg)
+\]</span> 将 <span class="math inline">\(n\)</span>
+提取出来，最终写成函数形式即为： <span class="math display">\[
+f(a,b,c,n)=nm-\sum_{j=0}^{m-1}\ \bigg\lfloor \frac{cj+c-b-1}{a}
+\bigg\rfloor
+\]</span> 此时观察最初的函数定义： <span class="math display">\[
+f(a,b,c,n)=\sum_{x=0}^n \ \bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span> 也就是说，我们将 <span class="math inline">\(m-1\)</span> 看成
+<span class="math inline">\(n\)</span> ，<span
+class="math inline">\(j\)</span> 看成 <span
+class="math inline">\(x\)</span> ，<span
+class="math inline">\(c\)</span> 看成 <span
+class="math inline">\(a\)</span>，<span
+class="math inline">\(c-b-1\)</span> 看成 <span
+class="math inline">\(b\)</span> ，<span
+class="math inline">\(a\)</span> 看成 <span
+class="math inline">\(c\)</span>
+，那么后面的求和部分就变成了函数形式，可以进行递归调用了： <span
+class="math display">\[
+f(a,b,c,n)=nm-f(c,c-b-1,a,m-1)
+\]</span> 因此如果函数存在 <span class="math inline">\(a\geq c\)</span>
+或 <span class="math inline">\(b\geq c\)</span>
+的情况，先使用取模化简的方式将 <span class="math inline">\(a\)</span> 和
+<span class="math inline">\(b\)</span> 都控制在 <span
+class="math inline">\(a&lt;c\)</span> 且 <span
+class="math inline">\(b&lt;c\)</span>
+的情况，然后再用贡献化简的方式进行递归，并重复这一过程。</p>
+<p>这样反复缩小数量级的过程和我们学过求 <span
+class="math inline">\(gcd\)</span>
+的辗转相除法（即欧几里得算法）十分相似，因此
+<strong>类欧几里得算法</strong> 由此得来。</p>
+<p>时间复杂度： <span class="math inline">\(O(logn)\)</span></p>
+<p>代码实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c, <span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(a == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>((b / c) * (n + <span class="hljs-number">1</span>));<br>    <span class="hljs-keyword">if</span>(a &gt;= c || b &gt;= c) <span class="hljs-keyword">return</span> <span class="hljs-built_in">f</span>(a % c, b % c, c, n) + (a / c) * n * (n + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span> + (b / c) * (n + <span class="hljs-number">1</span>);<br>    <span class="hljs-type">int</span> m = (a * n + b) / c;<br>    <span class="hljs-keyword">return</span> n * m - <span class="hljs-built_in">f</span>(c, c - b - <span class="hljs-number">1</span>, a, m - <span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>同时类欧几里得算法也有两个拓展情况，记为 <span
+class="math inline">\(g\)</span> 函数和 <span
+class="math inline">\(h\)</span> 函数： <span class="math display">\[
+g(a,b,c,n)=\sum_{x=0}^n \ x\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor
+\]</span></p>
+<p><span class="math display">\[
+h(a,b,c,n)=\sum_{x=0}^n \ {\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor}^2
+\]</span></p>
+<p><span class="math inline">\(g\)</span> 函数的化简：</p>
+<p>首先利用前面的取模化简，将 <span class="math inline">\(g\)</span>
+函数化简成如下形式： <span class="math display">\[
+g(a,b,c,n)=\sum_{x=0}^n \ x\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\
+c)}{c} \bigg\rfloor+\bigg\lfloor\frac{a}{c} \bigg\rfloor
+x^2+\bigg\lfloor\frac{b}{c} \bigg\rfloor x
+\]</span> 同时根据我们学过的数学知识，有以下两个结论： <span
+class="math display">\[
+\sum_{i=1}^n i=\frac{n(n + 1)}{2} \\
+\sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}
+\]</span>
+（平方和公式的证明，《具体数学》中介绍了几种详细证明的方式）</p>
+<p>那么原式就被我们化简成了： <span class="math display">\[
+g(a,b,c,n)=\frac{n(n+1)(2n+1)}{6}\times\bigg\lfloor\frac{a}{c}
+\bigg\rfloor + \frac{n(n+1)}{2}\times\bigg\lfloor\frac{b}{c}
+\bigg\rfloor + g(a\ mod\ c,b\ mod\ c,c,n)
+\]</span> 取模化简结束之后在进行贡献化简，利用同样的方式，令 <span
+class="math inline">\(m=\big\lfloor \frac{an+b}{c}\big\rfloor\)</span>
+，原式化简成： <span class="math display">\[
+\sum_{j=0}^{m-1}\sum_{x=0}^n\ x\bigg[x &gt; \bigg\lfloor
+\frac{cj+c-b-1}{a} \bigg\rfloor\bigg]
+\]</span> 观察后面的和式部分，同时令 <span
+class="math inline">\(t=\big\lfloor
+\frac{cj+c-b-1}{a}\big\rfloor\)</span>，则后面的和式部分变为： <span
+class="math display">\[
+\sum_{x=0}^n\ x[x &gt; t]
+\]</span> 观察不难发现，只有当 <span class="math inline">\(x\geq
+t+1\)</span> 时，才会产生贡献，因此和式部分就转化成了： <span
+class="math display">\[
+\sum_{x=t+1}^n\ x
+\]</span> 那么这个部分就变成了首项为 <span
+class="math inline">\(t+1\)</span> ，末项为 <span
+class="math inline">\(n\)</span>，公差为 <span
+class="math inline">\(1\)</span> 的等差数列了，那么容易得到： <span
+class="math display">\[
+\sum_{x=t+1}^n\ x=\frac{(t + 1 + n) \times (n - t)}{2}
+\]</span> 但这样子看还是太复杂了，再进行化简： <span
+class="math display">\[
+\begin{align*}
+\frac{(t + 1 + n) \times (n - t)}{2} &amp;=
+\frac{nt-t^2+n-t+n^2-nt}{2}\\
+&amp;=\frac{n^2+n}{2}-\frac{t^2+t}{2}
+\end{align*}
+\]</span> 那么原式就变成了： <span class="math display">\[
+\begin{align*}
+g(a,b,c,n)&amp;=\sum_{j=0}^{m-1}\ \frac{n^2+n}{2}-\frac{t^2+t}{2}\\
+&amp;=\frac{1}{2}\bigg(\sum_{j=0}^{m-1}(n^2+n)
+-\sum_{j=0}^{m-1}(t^2+t)\bigg)
+\end{align*}
+\]</span> 此时前面的和式中， <span class="math inline">\(n\)</span> 和
+<span class="math inline">\(j\)</span>
+没有任何联系了，可以尝试转化为公式进行解决，然后对后面的和式进行拆分：</p>
+<p><span class="math display">\[
+g(a,b,c,n)=\frac{1}{2}\bigg(m(n^2+n)
+-\sum_{j=0}^{m-1}t^2-\sum_{j=0}^{m-1}t\bigg)
+\]</span> 将 <span class="math inline">\(t=\big\lfloor
+\frac{cj+c-b-1}{a}\big\rfloor\)</span> 代回原式子中： <span
+class="math display">\[
+g(a,b,c,n)=\frac{1}{2}\bigg(m(n^2+n) -\sum_{j=0}^{m-1}{\bigg\lfloor
+\frac{cj+c-b-1}{a}\bigg\rfloor}^2-\sum_{j=0}^{m-1}\bigg\lfloor
+\frac{cj+c-b-1}{a}\bigg\rfloor\bigg)
+\]</span> 观察得到第一个和式部分为等会要解决的 <span
+class="math inline">\(h\)</span> 函数，第二个和式部分为 <span
+class="math inline">\(f\)</span> 函数，最终式子化为： <span
+class="math display">\[
+g(a,b,c,n)=\frac{1}{2}\bigg(m(n^2+n)-h(c,c-b-1,a,m-1)-f(c,c-b-1,a,m-1)\bigg)
+\]</span> 那么接下来要解决的就是 <span class="math inline">\(h\)</span>
+函数的化简了。</p>
+<p><span class="math inline">\(h\)</span> 函数的化简：</p>
+<p>同样的进行取模化简： <span class="math display">\[
+\begin{align*}
+h(a,b,c,n)&amp;=\sum_{x=0}^n \bigg(\ \bigg\lfloor \frac{(a\ mod\ c)x+(b\
+mod\ c)}{c} \bigg\rfloor+\bigg\lfloor\frac{a}{c} \bigg\rfloor
+x+\bigg\lfloor\frac{b}{c}\bigg\rfloor\bigg)^2\\
+&amp;=\sum_{x=0}^n\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\ c)}{c}
+\bigg\rfloor^2+2\times\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\ c)}{c}
+\bigg\rfloor\times\bigg(\bigg\lfloor\frac{a}{c} \bigg\rfloor
+x+\bigg\lfloor\frac{b}{c}\bigg\rfloor\bigg)\\
+&amp;+\bigg(\bigg\lfloor\frac{a}{c} \bigg\rfloor
+x+\bigg\lfloor\frac{b}{c}\bigg\rfloor\bigg)^2\\
+&amp;=\sum_{x=0}^n\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\ c)}{c}
+\bigg\rfloor^2+2\bigg\lfloor\frac{a}{c}
+\bigg\rfloor\sum_{x=0}^nx\bigg\lfloor \frac{(a\ mod\ c)x+(b\ mod\ c)}{c}
+\bigg\rfloor\\
+&amp;+2\bigg\lfloor\frac{b}{c} \bigg\rfloor\sum_{x=0}^n\bigg\lfloor
+\frac{(a\ mod\ c)x+(b\ mod\ c)}{c}
+\bigg\rfloor+\sum_{x=0}^n\bigg(\bigg\lfloor\frac{a}{c}
+\bigg\rfloor^2x^2+2\bigg\lfloor\frac{a}{c}
+\bigg\rfloor\bigg\lfloor\frac{b}{c} \bigg\rfloor
+x+\bigg\lfloor\frac{b}{c} \bigg\rfloor^2\bigg)\\
+&amp;=h(a\ mod\ c,b\ mod\ c,c,n)+2\bigg\lfloor\frac{a}{c} \bigg\rfloor
+g(a\ mod\ c,b\ mod\ c,c,n)\\
+&amp;+2\bigg\lfloor\frac{b}{c} \bigg\rfloor f(a\ mod\ c,b\ mod\
+c,c,n)+\bigg\lfloor\frac{a}{c}
+\bigg\rfloor^2\times\frac{n(n+1)(2n+1)}{6}+\bigg\lfloor\frac{a}{c}
+\bigg\rfloor\bigg\lfloor\frac{b}{c} \bigg\rfloor\times{n(n+1)}\\
+&amp;+\bigg\lfloor\frac{b}{c} \bigg\rfloor^2\times(n+1)
+\end{align*}
+\]</span> 取模化简的部分结束之后，在进行贡献化简： <span
+class="math display">\[
+h(a,b,c,n)=\sum_{x=0}^n \ {\bigg\lfloor \frac{ax+b}{c} \bigg\rfloor}^2
+\]</span>
+注意到平方是比较难以处理的，但我们可以通过巧妙的方式来进行降幂： <span
+class="math display">\[
+t^2=2\times\frac{t(t+1)}{2}-t=\bigg(2\sum_{x=1}^tx\bigg)-t
+\]</span> 那么将 <span class="math inline">\(t\)</span> 替换成 <span
+class="math inline">\({\big\lfloor \frac{ax+b}{c}
+\big\rfloor}\)</span>，原式就转化成了： <span class="math display">\[
+\begin{align*}
+h(a,b,c,n)&amp;=\sum_{x=0}^n\bigg(\bigg(2\sum_{j=1}^{\big\lfloor
+\frac{ax+b}{c} \big\rfloor}j\bigg)-\bigg\lfloor \frac{ax+b}{c}
+\bigg\rfloor\bigg) \\
+&amp;=2\sum_{x=0}^n\sum_{j=1}^{\big\lfloor \frac{ax+b}{c} \big\rfloor}j\
+-f(a,b,c,n)
+\end{align*}
+\]</span> 那么关键就在于前面的和式部分的化简了： <span
+class="math display">\[
+\sum_{x=0}^n\sum_{j=1}^{\big\lfloor \frac{ax+b}{c}
+\big\rfloor}j=\sum_{x=0}^n\sum_{j=0}^{\big\lfloor \frac{ax+b}{c}
+\big\rfloor-1}(j+1)=\sum_{j=0}^{\big\lfloor \frac{an+b}{c}
+\big\rfloor-1}(j+1)\sum_{x=0}^n\bigg[j&lt;\bigg\lfloor\frac{ax+b}{c}\bigg\rfloor\bigg]
+\]</span>
+转化到这一步，就是前面比较熟悉的贡献化简的过程了，因此最终转化为： <span
+class="math display">\[
+\sum_{j=0}^{\big\lfloor \frac{an+b}{c}
+\big\rfloor-1}(j+1)\sum_{x=0}^n\bigg[x &gt; \bigg\lfloor
+\frac{cj+c-b-1}{a} \bigg\rfloor\bigg]=\sum_{j=0}^{\big\lfloor
+\frac{an+b}{c} \big\rfloor-1}\bigg((j+1)\times\bigg(n- \bigg\lfloor
+\frac{cj+c-b-1}{a} \bigg\rfloor\bigg)\bigg)
+\]</span> 那么对后面的部分进行拆分，同时令 <span
+class="math inline">\(m=\big\lfloor
+\frac{an+b}{c}\big\rfloor\)</span>，就会得到： <span
+class="math display">\[
+\sum_{j=0}^{m-1}jn-\sum_{j=0}^{m-1}\ j\bigg\lfloor \frac{cj+c-b-1}{a}
+\bigg\rfloor+\sum_{j=0}^{m-1}n-\sum_{j=0}^{m-1}\ \bigg\lfloor
+\frac{cj+c-b-1}{a} \bigg\rfloor
+\]</span> 四个和式部分都是我们非常熟悉的，再次进行化简： <span
+class="math display">\[
+\frac{nm(m-1)}{2}-g(c,c-b-1,a,m-1)+nm-f(c,c-b-1,a,m-1)
+\]</span> 将化简后的部分代回原式当中： <span class="math display">\[
+\begin{align*}
+h(a,b,c,n)&amp;=nm(m-1)-2g(c,c-b-1,a,m-1)+2nm-2f(c,c-b-1,a,m-1)-f(a,b,c,n)\\
+&amp;=nm(m+1)-2g(c,c-b-1,a,m-1)-2f(c,c-b-1,a,m-1)-f(a,b,c,n)
+\end{align*}
+\]</span> 那么最终 <span class="math inline">\(g\)</span> 函数和 <span
+class="math inline">\(h\)</span> 函数被我们化简成了一下两个部分：</p>
+<p><span class="math inline">\(g\)</span> 函数：</p>
+<p>当 <span class="math inline">\(a\geq c\)</span> 或 <span
+class="math inline">\(b\geq c\)</span> 时： <span
+class="math display">\[
+g(a,b,c,n)=\frac{n(n+1)(2n+1)}{6}\times\bigg\lfloor\frac{a}{c}
+\bigg\rfloor + \frac{n(n+1)}{2}\times\bigg\lfloor\frac{b}{c}
+\bigg\rfloor + g(a\ mod\ c,b\ mod\ c,c,n)
+\]</span> 当 <span class="math inline">\(a &lt; c\)</span> 且 <span
+class="math inline">\(b&lt;c\)</span> 时： <span class="math display">\[
+g(a,b,c,n)=\frac{1}{2}\bigg(m(n^2+n)-h(c,c-b-1,a,m-1)-f(c,c-b-1,a,m-1)\bigg)
+\]</span> <span class="math inline">\(h\)</span> 函数：</p>
+<p>当 <span class="math inline">\(a\geq c\)</span> 或 <span
+class="math inline">\(b\geq c\)</span> 时： <span
+class="math display">\[
+\begin{align*}
+h(a,b,c,n)&amp;=h(a\ mod\ c,b\ mod\ c,c,n)+2\bigg\lfloor\frac{a}{c}
+\bigg\rfloor g(a\ mod\ c,b\ mod\ c,c,n)\\
+&amp;+2\bigg\lfloor\frac{b}{c} \bigg\rfloor f(a\ mod\ c,b\ mod\
+c,c,n)+\bigg\lfloor\frac{a}{c}
+\bigg\rfloor^2\times\frac{n(n+1)(2n+1)}{6}+\bigg\lfloor\frac{a}{c}
+\bigg\rfloor\bigg\lfloor\frac{b}{c} \bigg\rfloor\times{n(n+1)}\\
+&amp;+\bigg\lfloor\frac{b}{c} \bigg\rfloor^2\times(n+1)
+\end{align*}
+\]</span> 当 <span class="math inline">\(a &lt; c\)</span> 且 <span
+class="math inline">\(b&lt;c\)</span> 时： <span class="math display">\[
+h(a,b,c,n)=nm(m+1)-2g(c,c-b-1,a,m-1)-2f(c,c-b-1,a,m-1)-f(a,b,c,n)
+\]</span> 观察可以发现在求解 <span class="math inline">\(f\)</span>
+函数，<span class="math inline">\(g\)</span> 函数和 <span
+class="math inline">\(h\)</span>
+函数的时候需要互相使用，因此类欧几里得算法的这三个函数一般都是一起进行处理的，除非只需要求解
+<span class="math inline">\(f\)</span> 函数时调用上面 <span
+class="math inline">\(f\)</span> 函数的代码实现即可。</p>
+<p>时间复杂度：<span class="math inline">\(O(logn)\)</span></p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">using</span> ll = <span class="hljs-type">long</span> <span class="hljs-type">long</span>;<br><br><span class="hljs-keyword">constexpr</span> ll mod = <span class="hljs-number">998244353</span>;<br><span class="hljs-keyword">constexpr</span> ll i2 = <span class="hljs-number">499122177</span>;      <span class="hljs-comment">// 2的逆元</span><br><span class="hljs-keyword">constexpr</span> ll i6 = <span class="hljs-number">166374059</span>;     <span class="hljs-comment">// 6的逆元</span><br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Data</span><br>&#123;<br>    ll f, g, h;<br>&#125;;<br><br><span class="hljs-function">Data <span class="hljs-title">calc</span><span class="hljs-params">(ll a, ll b, ll c, ll n)</span></span><br><span class="hljs-function"></span>&#123;<br>    ll ac = a / c, bc = b / c, m = (a * n + b) / c;<br>    <span class="hljs-keyword">if</span>(a == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> &#123;bc * (n + <span class="hljs-number">1</span>) % mod, bc * n % mod * (n + <span class="hljs-number">1</span>) % mod * i2 % mod, bc * bc % mod * (n + <span class="hljs-number">1</span>) % mod&#125;;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(a &gt;= c || b &gt;= c)<br>    &#123;<br>        ll tmpf = (n * (n + <span class="hljs-number">1</span>) % mod * i2 % mod * ac % mod + (n + <span class="hljs-number">1</span>) * bc % mod) % mod;<br>        ll tmpg = (n * (n + <span class="hljs-number">1</span>) % mod * (<span class="hljs-number">2ll</span> * n + <span class="hljs-number">1</span>) % mod * i6 % mod * ac % mod + n * (n + <span class="hljs-number">1</span>) % mod * i2 % mod * bc) % mod;<br>        ll tmph = (n * (n + <span class="hljs-number">1</span>) % mod * (<span class="hljs-number">2ll</span> * n + <span class="hljs-number">1</span>) % mod * i6 % mod * ac % mod * ac % mod + <br>                   n * (n + <span class="hljs-number">1</span>) % mod * ac % mod * bc % mod + (n + <span class="hljs-number">1</span>) * bc % mod * bc % mod) % mod;<br>        <br>        <span class="hljs-keyword">auto</span> tmp = <span class="hljs-built_in">calc</span>(a % c, b % c, c, n);<br>        tmpf = (tmpf + tmp.f) % mod;<br>        tmpg = (tmpg + tmp.g) % mod;<br>        tmph = (tmph + tmp.h + <span class="hljs-number">2ll</span> * ac % mod * tmp.g % mod + <span class="hljs-number">2ll</span> * bc % mod * tmp.f % mod) % mod;<br>        <br>        <span class="hljs-keyword">return</span> &#123;tmpf, tmpg, tmph&#125;;<br>    &#125;<br>    <br>    ll tmpf = n * m % mod;<br>    ll tmpg = m * n % mod * (n + <span class="hljs-number">1</span>) % mod;<br>    ll tmph = n * m % mod * (m + <span class="hljs-number">1</span>) % mod;<br><br>    <span class="hljs-keyword">auto</span> tmp = <span class="hljs-built_in">calc</span>(c, c - b - <span class="hljs-number">1</span>, a, m - <span class="hljs-number">1</span>);<br>    tmpf = tmpf - tmp.f; tmpf = (tmpf % mod + mod) % mod;<br>    tmpg = tmpg - tmp.h - tmp.f; tmpg = (tmpg * i2 % mod + mod) % mod;<br>    tmph = tmph - <span class="hljs-number">2ll</span> * tmp.g - <span class="hljs-number">2ll</span> * tmp.f  - tmpf; tmph = (tmph % mod + mod) % mod;<br><br>    <span class="hljs-keyword">return</span> &#123;tmpf, tmpg, tmph&#125;;  <br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> t;<br>    cin &gt;&gt; t;<br>    <span class="hljs-keyword">while</span>(t -- )<br>    &#123;<br>        ll n, a, b, c;<br>        cin &gt;&gt; n &gt;&gt; a &gt;&gt; b &gt;&gt; c;<br>        <span class="hljs-keyword">auto</span> ans = <span class="hljs-built_in">calc</span>(a, b, c, n);<br>        cout &lt;&lt; ans.f &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span> &lt;&lt; ans.h &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span> &lt;&lt; ans.g &lt;&lt; endl;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E8%AE%BA/" class="category-chain-item">数论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>类欧几里得算法</div>
+      <div>http://example.com/2024/01/15/类欧几里得算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/15/Stern-Brocot-%E6%A0%91%E4%B8%8E-Farey-%E5%BA%8F%E5%88%97/" title="Stern-Brocot 树与 Farey 序列">
+                        <span class="hidden-mobile">Stern-Brocot 树与 Farey 序列</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
