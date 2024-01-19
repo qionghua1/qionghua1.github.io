@@ -1,0 +1,859 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="qionghua">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="CDQ分治 参考资料： CDQ 分治 - OI Wiki (oi-wiki.com) \(\textrm{CDQ}\) 分治主要用于解决三类问题： 1. 解决和点对有关的问题 2. \(\textrm{1D}\) 动态规划的优化与转移 3. 通过 \(\textrm{CDQ}\) 分治， 将一些动态问题转化为静态问题 解决和点对有关的问题 这类问题多数类似于\(\lceil\)给">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CDQ分治">
+<meta property="og:url" content="http://example.com/2024/01/19/CDQ%E5%88%86%E6%B2%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="CDQ分治 参考资料： CDQ 分治 - OI Wiki (oi-wiki.com) \(\textrm{CDQ}\) 分治主要用于解决三类问题： 1. 解决和点对有关的问题 2. \(\textrm{1D}\) 动态规划的优化与转移 3. 通过 \(\textrm{CDQ}\) 分治， 将一些动态问题转化为静态问题 解决和点对有关的问题 这类问题多数类似于\(\lceil\)给">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-19T09:26:44.000Z">
+<meta property="article:modified_time" content="2024-01-19T09:31:51.526Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>CDQ分治 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>qionghua</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/xianjian.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CDQ分治"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-19 17:26" pubdate>
+          2024年1月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CDQ分治</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="cdq分治">CDQ分治</h1>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="http://oi-wiki.com/misc/cdq-divide/">CDQ 分治 - OI Wiki
+(oi-wiki.com)</a></p>
+<p><span class="math inline">\(\textrm{CDQ}\)</span>
+分治主要用于解决三类问题： 1. 解决和点对有关的问题 2. <span
+class="math inline">\(\textrm{1D}\)</span> 动态规划的优化与转移 3. 通过
+<span class="math inline">\(\textrm{CDQ}\)</span> 分治，
+将一些动态问题转化为静态问题</p>
+<h4 id="解决和点对有关的问题">解决和点对有关的问题</h4>
+<p>这类问题多数类似于<span
+class="math inline">\(\lceil\)</span>给定一个长度为 <span
+class="math inline">\(n\)</span> 的序列，统计一些有特性的点对 <span
+class="math inline">\((i,j)\)</span> 的数量或者找到一对点 <span
+class="math inline">\((i,j)\)</span> 使得一些函数的值最大<span
+class="math inline">\(\rfloor\)</span>。</p>
+<p>算法流程如下：</p>
+<ol type="1">
+<li><p>找到这个序列的终点 <span
+class="math inline">\(mid\)</span></p></li>
+<li><p>将所有点对 <span class="math inline">\((i, j)\)</span> 划分为
+<span class="math inline">\(3\)</span> 类：</p>
+<ol type="a">
+<li><p><span class="math inline">\(1\leq i\leq mid,1\leq j\leq
+mid\)</span> 的点对；</p></li>
+<li><p><span class="math inline">\(1\leq i\leq mid,mid+1\leq j\leq
+n\)</span> 的点对</p></li>
+<li><p><span class="math inline">\(mid+1\leq i\leq n,mid+1\leq j\leq
+n\)</span> 的点对</p></li>
+</ol></li>
+<li><p>将 <span class="math inline">\((1,n)\)</span>
+这个序列拆成两个序列 <span class="math inline">\((1,mid)\)</span> 和
+<span
+class="math inline">\((mid+1,n)\)</span>。此时第一类点对和第三类点对都在这两个序列之中。</p></li>
+<li><p>递归地处理这两类点对</p></li>
+<li><p>设法处理第二类点对</p></li>
+</ol>
+<p>可以发现 <span class="math inline">\(\textrm{CDQ}\)</span>
+分治的思想就是不断地把点对通过递归的方式分给左右两个区间。
+在实际应用时，通常使用一个函数 <code>solve(l, r)</code> 处理 <span
+class="math inline">\(l\leq i\leq r,l\leq j\leq r\)</span>
+的点对。上述算法流程中的递归部分便是通过 <code>solve(l, mid)</code> 与
+<code>solve(mid + 1, r)</code>
+来实现的。剩下的第二类点对则需要额外设计算法解决。</p>
+<h5 id="例题">例题：</h5>
+<h6 id="三维偏序">三维偏序：</h6>
+<p>给定一个序列，每个点有 <span
+class="math inline">\(a_i,b_i,c_i\)</span>
+三个属性，试求这个序列里有多少对点对 <span
+class="math inline">\((i,j)\)</span> 满足 <span
+class="math inline">\(a_j\leq a_i\)</span> 且 <span
+class="math inline">\(b_j\leq b_i\)</span> 且 <span
+class="math inline">\(c_j\leq c_i\)</span> 且 <span
+class="math inline">\(j\neq i\)</span>。</p>
+<p>思路：</p>
+<p>三维偏序是 <span class="math inline">\(\textrm{CDQ}\)</span>
+分治的经典问题，题目中要求统计序列里点对的个数，那就尝试使用 <span
+class="math inline">\(\textrm{CDQ}\)</span> 分治。</p>
+<p>首先将序列按照 <span class="math inline">\(a\)</span> 排序。</p>
+<p>假设我们已经写好了 <code>solve(l,r)</code>，并通过递归搞定了
+<code>solve(l, mid)</code> 和
+<code>solve(mid + 1, r)</code>。现在我们要做的就是统计满足 <span
+class="math inline">\(l\leq i\leq mid,mid+1\leq j\leq r\)</span> 的点对
+<span class="math inline">\((i,j)\)</span>
+种，有多少个点对还满足题目的限制条件。</p>
+<p>思考可以发现，由于我们前面已经对 <span
+class="math inline">\(a\)</span> 进行排序了，那么 <span
+class="math inline">\(a_i&lt;a_j\)</span> 就能转化成 <span
+class="math inline">\(i&lt;j\)</span>，既然 <span
+class="math inline">\(i\)</span> 比 <span
+class="math inline">\(mid\)</span> 小， <span
+class="math inline">\(j\)</span> 比 <span
+class="math inline">\(mid\)</span> 大，那 <span
+class="math inline">\(i\)</span> 肯定要比 <span
+class="math inline">\(j\)</span> 要小。现在还剩下两个限制条件：<span
+class="math inline">\(b_i&lt;b_j\)</span> 与 <span
+class="math inline">\(c_i&lt;c_j\)</span>，根据这个限制条件我们就可以枚举
+<span class="math inline">\(j\)</span> ，求出有多少个满足条件的 <span
+class="math inline">\(i\)</span>。</p>
+<p>为了方便枚举，我们把 <span class="math inline">\((l,mid)\)</span> 和
+<span class="math inline">\((mid+1,r)\)</span> 中的点全部按照 <span
+class="math inline">\(b\)</span> 的值从很小到大排序，之后依次枚举每一个
+<span class="math inline">\(j\)</span> ，把所有 <span
+class="math inline">\(b_i&lt;b_j\)</span> 的点 <span
+class="math inline">\(i\)</span>
+全部插入到某种数据结构里（这里可以选用树状数组），此时只要查询有多少个点的
+<span class="math inline">\(c\)</span> 的值是小于 <span
+class="math inline">\(c_j\)</span> 的，我们就求出了对于这个点 <span
+class="math inline">\(j\)</span> ，有多少个 <span
+class="math inline">\(i\)</span> 可以合法匹配它了。</p>
+<p>当我们插入一个 <span class="math inline">\(c\)</span> 值等于 <span
+class="math inline">\(x\)</span> 的点时，我们就令树状数组的 <span
+class="math inline">\(x\)</span> 这个位置单点
++1，而查询树状数组有多少个点小于 <span class="math inline">\(x\)</span>
+的操作实际上就是在求前缀和，只要实现对所有的 <span
+class="math inline">\(c\)</span> 做离散化，复杂度就是正确的。</p>
+<p>对于每个 <span class="math inline">\(j\)</span>，我们都需要将所有的
+<span class="math inline">\(b_i&lt;b_j\)</span> 的点 <span
+class="math inline">\(i\)</span> 插入树状数组中，由于所有的 <span
+class="math inline">\(i\)</span> 和 <span
+class="math inline">\(j\)</span> 都已事先按照 <span
+class="math inline">\(b\)</span>
+值排好序，这样只要以双指针的方式在树状数组里插入点，那么插入操作就能从
+<span class="math inline">\(O(n^2)\)</span> 降到 <span
+class="math inline">\(O(n)\)</span>。</p>
+<p>那么通过这样的算法流程，我们就用 <span
+class="math inline">\(O(nlogn)\)</span>
+的时间处理完了第二类点对的信息了，此时算法的时间复杂度就是 <span
+class="math inline">\(T(n)=T(\lfloor\frac{n}{2}\rfloor)+T(\lceil\frac{n}{2}\rceil)+O(nlogn)=O(nlog^2n)\)</span>。</p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> lowbit(x) (x &amp; -x)</span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">using</span> ll = <span class="hljs-type">long</span> <span class="hljs-type">long</span>;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2e5</span> + <span class="hljs-number">5</span>;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span><br>&#123;<br>    <span class="hljs-type">int</span> x, y, z;<br>    <span class="hljs-type">int</span> cnt;<br>    <span class="hljs-type">int</span> res;<br>    <span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> &lt; (<span class="hljs-type">const</span> node &amp;n) <span class="hljs-type">const</span><br>    &#123;<br>        <span class="hljs-keyword">if</span>(x != n.x) <span class="hljs-keyword">return</span> x &lt; n.x;<br>        <span class="hljs-keyword">if</span>(y != n.y) <span class="hljs-keyword">return</span> y &lt; n.y;<br>        <span class="hljs-keyword">return</span> z &lt; n.z;<br>    &#125;<br>    <span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> == (<span class="hljs-type">const</span> node &amp;n) <span class="hljs-type">const</span> <br>    &#123;<br>        <span class="hljs-keyword">return</span> x == n.x &amp;&amp; y == n.y &amp;&amp; z == n.z;<br>    &#125;<br>&#125;a[N], b[N];<br><br><span class="hljs-type">int</span> tr[N];<br><span class="hljs-type">int</span> n, k;<br>ll res[N];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> c)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = x; i &lt;= k; i += <span class="hljs-built_in">lowbit</span>(i)) tr[i] += c;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = x; i; i -= <span class="hljs-built_in">lowbit</span>(i)) ans += tr[i];<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l &gt;= r) <span class="hljs-keyword">return</span> ;<br>    <span class="hljs-type">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">solve</span>(l, mid), <span class="hljs-built_in">solve</span>(mid + <span class="hljs-number">1</span>, r);<br>    <span class="hljs-type">int</span> i = l, j = mid + <span class="hljs-number">1</span>, num = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span>(j &lt;= r)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(i &lt;= mid &amp;&amp; a[i].y &lt;= a[j].y)<br>        &#123;<br>            <span class="hljs-built_in">add</span>(a[i].z, a[i].cnt);<br>            b[num ++ ] = a[i ++ ];<br>        &#125;<br>        a[j].res += <span class="hljs-built_in">sum</span>(a[j].z);<br>        b[num ++ ] = a[j ++ ];<br>    &#125;<br>    <span class="hljs-keyword">while</span>(i &lt;= mid) <span class="hljs-built_in">add</span>(a[i].z, a[i].cnt), b[num ++ ] = a[i ++ ];<br>    <span class="hljs-keyword">for</span>(j = l; j &lt;= mid; j ++ ) <span class="hljs-built_in">add</span>(a[j].z, -a[j].cnt);<br>    <span class="hljs-keyword">for</span>(i = l, j = <span class="hljs-number">0</span>; j &lt; num; i ++ , j ++ ) a[i] = b[j];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    cin &gt;&gt; n &gt;&gt; k;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ )<br>    &#123;<br>        <span class="hljs-type">int</span> x, y, z;<br>        cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;<br>        a[i] = &#123;x, y, z, <span class="hljs-number">1</span>&#125;;<br>    &#125;<br>    <span class="hljs-built_in">sort</span>(a, a + n);<br>    <span class="hljs-type">int</span> num = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i ++ )<br>    &#123;<br>        <span class="hljs-keyword">if</span>(a[i] == a[num - <span class="hljs-number">1</span>]) a[num - <span class="hljs-number">1</span>].cnt ++ ;<br>        <span class="hljs-keyword">else</span> a[num ++ ] = a[i];<br>    &#125;<br>    <span class="hljs-built_in">solve</span>(<span class="hljs-number">0</span>, num - <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; num; i ++ ) res[a[i].res + a[i].cnt - <span class="hljs-number">1</span>] += a[i].cnt;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ ) cout &lt;&lt; res[i] &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h6 id="动态逆序对">动态逆序对：</h6>
+<p>对于序列 <span
+class="math inline">\(a\)</span>，它的逆序对数定义为集合 <span
+class="math inline">\(\{(i, j)|i&lt;j \wedge a_i&gt;a_j\}\)</span>
+中元素个数。 现给出 <span class="math inline">\(1\sim n\)</span>
+的一个排列，按照某种顺序依次删除 <span class="math inline">\(m\)</span>
+个元素，你的任务是在每次删除一个元素之前统计整个序列的逆序对数。</p>
+<p>思路：给每一个元素加入在加入一维删除时间 <span
+class="math inline">\(time\)</span>，那么对答案做出贡献的必然是 <span
+class="math inline">\(time_i &lt; time_j, i&lt;j,a_i&gt;a_j\)</span> 和
+<span class="math inline">\(time_i&lt;time_j,i&gt;j,a_i&lt;a_j\)</span>
+两部分，明显看出就是三维偏序的板子，分别做 <span
+class="math inline">\(CDQ\)</span> 分治即可。</p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 200005</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> endl <span class="hljs-string">&#x27;\n&#x27;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> all(v) v.begin(), v.end()</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> sc(t) scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;t)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> scl(t) scanf(<span class="hljs-string">&quot;%lld&quot;</span>, &amp;t)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> scf(t) scanf(<span class="hljs-string">&quot;%lf&quot;</span>, &amp;t)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> lowbit(x) (x &amp; -x)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> x first</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> y second</span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">using</span> ll = <span class="hljs-type">long</span> <span class="hljs-type">long</span>;<br><span class="hljs-keyword">using</span> lll = __int128;<br><span class="hljs-keyword">using</span> ull = <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span>;<br><span class="hljs-keyword">using</span> pii = pair&lt;ll, ll&gt;;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> MOD = <span class="hljs-number">998244353</span>;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> inf = <span class="hljs-number">0x3f3f3f3f</span>;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">double</span> eps = <span class="hljs-number">1e-6</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> pi = <span class="hljs-built_in">acos</span>(<span class="hljs-number">-1</span>);<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span><br>&#123;<br>    <span class="hljs-type">int</span> t, idx, val;<br>&#125;a[N], b[N];<br><br>ll tr[N], res[N];<br>ll ans = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> q[N], w[N];<br><span class="hljs-type">int</span> mp[N];<br><span class="hljs-type">int</span> n, m;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> c)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = x; i &lt;= n; i += <span class="hljs-built_in">lowbit</span>(i)) tr[i] += c;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = x; i; i -= <span class="hljs-built_in">lowbit</span>(i)) res += tr[i];<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l &gt;= r) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-type">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">solve</span>(l, mid), <span class="hljs-built_in">solve</span>(mid + <span class="hljs-number">1</span>, r);<br>    <span class="hljs-type">int</span> i = l, j = mid + <span class="hljs-number">1</span>, num = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span>(i &lt;= mid &amp;&amp; j &lt;= r)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(q[i] &gt; q[j])<br>        &#123;<br>            w[num ++ ] = q[i ++ ];<br>            ans += r - j + <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span> w[num ++ ] = q[j ++ ];<br>    &#125;<br>    <span class="hljs-keyword">while</span>(i &lt;= mid) w[num ++ ] = q[i ++ ];<br>    <span class="hljs-keyword">while</span>(j &lt;= r) w[num ++ ] = q[j ++ ];<br>    <span class="hljs-keyword">for</span>(i = l, j = <span class="hljs-number">0</span>; j &lt; num; i ++ , j ++ ) q[i] = w[j];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">cdq</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l &gt;= r) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-type">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">cdq</span>(l, mid), <span class="hljs-built_in">cdq</span>(mid + <span class="hljs-number">1</span>, r);<br>    <span class="hljs-type">int</span> i = l, j = mid + <span class="hljs-number">1</span>, num = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span>(j &lt;= r)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(i &lt;= mid &amp;&amp; a[i].t &gt; a[j].t)<br>        &#123;<br>            <span class="hljs-built_in">add</span>(a[i].val, <span class="hljs-number">1</span>);<br>            i ++ ;<br>        &#125;<br>        res[a[j].t] += <span class="hljs-built_in">sum</span>(n) - <span class="hljs-built_in">sum</span>(a[j].val);<br>        j ++ ;<br>    &#125;<br>    <span class="hljs-keyword">while</span>(i &lt;= mid) <span class="hljs-built_in">add</span>(a[i].val, <span class="hljs-number">1</span>), i ++ ;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = l; k &lt;= mid; k ++ ) <span class="hljs-built_in">add</span>(a[k].val, <span class="hljs-number">-1</span>);<br>    i = l, j = mid + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span>(i &lt;= mid)<br>    &#123;<br>        <span class="hljs-keyword">while</span>(j &lt;= r &amp;&amp; a[i].t &lt; a[j].t)<br>        &#123;<br>            <span class="hljs-built_in">add</span>(a[j].val, <span class="hljs-number">1</span>);<br>            b[num ++ ] = a[j ++ ];<br>        &#125;<br>        res[a[i].t] += <span class="hljs-built_in">sum</span>(a[i].val - <span class="hljs-number">1</span>);<br>        b[num ++ ] = a[i ++ ];<br>    &#125;<br>    <span class="hljs-keyword">while</span>(j &lt;= r) <span class="hljs-built_in">add</span>(a[j].val, <span class="hljs-number">1</span>), b[num ++ ] = a[j ++ ];<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = mid + <span class="hljs-number">1</span>; k &lt;= r; k ++ ) <span class="hljs-built_in">add</span>(a[k].val, <span class="hljs-number">-1</span>);<br>    <span class="hljs-keyword">for</span>(i = l, j = <span class="hljs-number">0</span>; j &lt; num; i ++ , j ++ ) a[i] = b[j];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout &lt;&lt; fixed &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">20</span>);<br>    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">// cin &gt;&gt; T;</span><br>    <span class="hljs-keyword">while</span>(T -- )<br>    &#123;<br>        cin &gt;&gt; n &gt;&gt; m;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ ) <br>        &#123;<br>            cin &gt;&gt; a[i].val;<br>            a[i].idx = i;<br>            mp[a[i].val] = i;<br>            a[i].t = n + <span class="hljs-number">1</span>;<br>            q[i] = a[i].val;<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++ )<br>        &#123;<br>            <span class="hljs-type">int</span> x;<br>            cin &gt;&gt; x;<br>            a[mp[x]].t = i;<br>        &#125;<br>        <span class="hljs-built_in">solve</span>(<span class="hljs-number">1</span>, n);<br>        <span class="hljs-built_in">cdq</span>(<span class="hljs-number">1</span>, n); <br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++ )<br>        &#123;<br>            cout &lt;&lt; ans &lt;&lt; endl;<br>            ans -= res[i];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="cdq分治优化-1d1d-动态规划的转移">CDQ分治优化 1D/1D
+动态规划的转移</h4>
+<p>1D/1D 动态规划指的是一类特定的 DP 问题，该类题目的特征是 DP
+数组是一位的，转移是 <span class="math inline">\(O(n)\)</span>
+的。如果条件良好的话，又是啥可以通过 CDQ 分治来把他们的时间复杂度由
+<span class="math inline">\(O(n^2)\)</span> 降至 <span
+class="math inline">\(O(nlog^2n)\)</span>。</p>
+<p>例如，给定一个序列，每个元素由两个属性 <span
+class="math inline">\(a,b\)</span>。我们希望计算一个 DP
+式子的值，它的转移方程如下： <span class="math display">\[
+dp_i = 1+max_{j=1}^{i-1}dp_j[a_j&lt;a_i][b_j&lt;b_i]
+\]</span> 这是一个二维最长上升子序列的 DP 方程，即只有 <span
+class="math inline">\(j&lt;i,a_j&lt;a_i,b_j&lt;b_i\)</span> 的点 <span
+class="math inline">\(j\)</span> 可以更新点 <span
+class="math inline">\(i\)</span> 的 DP 值。 直接转移显然就是 <span
+class="math inline">\(O(n^2)\)</span> 的。以下是使用 CDQ
+分治优化转移过程的讲解。</p>
+<p>首先发现 <span class="math inline">\(dp_j\)</span> 转移到 <span
+class="math inline">\(dp_i\)</span>
+这种转移关系也是一种点对间的关系，因此也可以使用类似 CDQ
+分治处理点对关系的方式来进行处理。</p>
+<p>考虑上面给出的思路，假设现在处理的区间是 <span
+class="math inline">\((l,r)\)</span>，那么算法的流程大概就是：</p>
+<ol type="1">
+<li>如果 <span class="math inline">\(l=r\)</span> ，说明 <span
+class="math inline">\(dp_r\)</span> 值已经被计算好了，直接令 <span
+class="math inline">\(dp_r++\)</span> 然后返回即可。</li>
+<li>递归使用 <span class="math inline">\(solve(l,mid)\)</span>；</li>
+<li>处理所有 <span class="math inline">\(l\leq j\leq mid,mid+1\leq i\leq
+r\)</span> 的转移关系；</li>
+<li>递归使用 <span class="math inline">\(solve(mid+1, r)\)</span></li>
+</ol>
+<p>观察发现第三步的做法和求三维偏序的步骤差不多。首先 <span
+class="math inline">\(j&lt;i\)</span>
+的限制条件已经不用继续考虑了，这是显然的事情，所以我们只需要将所有的点
+<span class="math inline">\(i\)</span> 和点 <span
+class="math inline">\(j\)</span> 按 <span
+class="math inline">\(a\)</span> 值进行排序，然后用双指针的方式将 <span
+class="math inline">\(j\)</span>
+点插入到树状数组里，最后查一下前缀最大值更新一下 <span
+class="math inline">\(dp_i\)</span> 就可以。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">数据结构</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CDQ分治</div>
+      <div>http://example.com/2024/01/19/CDQ分治/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>qionghua</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/19/ABC333/" title="ABC333">
+                        <span class="hidden-mobile">ABC333</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
