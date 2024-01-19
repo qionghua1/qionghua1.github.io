@@ -16,24 +16,22 @@
   <meta name="author" content="qionghua">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Stern–Brocot 树与 Farey 序列 参考资料： OI-Wiki: Stern–Brocot 树与 Farey 序列 - OI Wiki (oi-wiki.com) Stern–Brocot 树 定义： \(\text{Stern–Brocot}\) 树是一种维护分数的优雅的结构，包含所有不同的正有理数。这个结构由 \(\text{Moritz Stern}\) 在 18">
+    <meta name="description" content="多项式 多项式基本概述 多项式的基础概念 多项式：对于求和是 \(\sum a_nx^n\)，如果是有限项相加，称为多项式，记作 \(f(x)&#x3D;\sum\limits_{n&#x3D;0}^ma_nx^n\)。 （多项式的本质就是一个满足一些运算性质的环） 对于一般环 \(R\)，定义 \(R\) 上的多项式环 \(R[x]\)，每个元素 \(f\) 称为 \(R\) 上的多项式，可表示为： \">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stern-Brocot 树与 Farey 序列">
-<meta property="og:url" content="http://example.com/2024/01/15/Stern-Brocot-%E6%A0%91%E4%B8%8E-Farey-%E5%BA%8F%E5%88%97/index.html">
+<meta property="og:title" content="多项式">
+<meta property="og:url" content="http://example.com/2024/01/19/%E5%A4%9A%E9%A1%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Stern–Brocot 树与 Farey 序列 参考资料： OI-Wiki: Stern–Brocot 树与 Farey 序列 - OI Wiki (oi-wiki.com) Stern–Brocot 树 定义： \(\text{Stern–Brocot}\) 树是一种维护分数的优雅的结构，包含所有不同的正有理数。这个结构由 \(\text{Moritz Stern}\) 在 18">
+<meta property="og:description" content="多项式 多项式基本概述 多项式的基础概念 多项式：对于求和是 \(\sum a_nx^n\)，如果是有限项相加，称为多项式，记作 \(f(x)&#x3D;\sum\limits_{n&#x3D;0}^ma_nx^n\)。 （多项式的本质就是一个满足一些运算性质的环） 对于一般环 \(R\)，定义 \(R\) 上的多项式环 \(R[x]\)，每个元素 \(f\) 称为 \(R\) 上的多项式，可表示为： \">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/stern-brocot.png">
-<meta property="article:published_time" content="2024-01-15T06:16:10.000Z">
-<meta property="article:modified_time" content="2024-01-15T07:53:31.829Z">
+<meta property="article:published_time" content="2024-01-19T09:03:17.000Z">
+<meta property="article:modified_time" content="2024-01-19T09:05:34.260Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/stern-brocot.png">
   
   
   
-  <title>Stern-Brocot 树与 Farey 序列 - Hexo</title>
+  <title>多项式 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Stern-Brocot 树与 Farey 序列"></span>
+            <span id="subtitle" data-typed-text="多项式"></span>
           
         </div>
 
@@ -214,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-15 14:16" pubdate>
-          2024年1月15日 下午
+        <time datetime="2024-01-19 17:03" pubdate>
+          2024年1月19日 下午
         </time>
       </span>
     
@@ -226,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          723 字
+          335 字
         
       </span>
     
@@ -237,7 +235,7 @@
         
         
         
-          7 分钟
+          3 分钟
         
       </span>
     
@@ -274,103 +272,47 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Stern-Brocot 树与 Farey 序列</h1>
+            <h1 id="seo-header">多项式</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="sternbrocot-树与-farey-序列">Stern–Brocot 树与 Farey 序列</h1>
-<p>参考资料：</p>
-<p>OI-Wiki: <a
-target="_blank" rel="noopener" href="http://oi-wiki.com/math/number-theory/stern-brocot/">Stern–Brocot
-树与 Farey 序列 - OI Wiki (oi-wiki.com)</a></p>
-<h4 id="sternbrocot-树">Stern–Brocot 树</h4>
-<p><strong>定义：</strong></p>
-<p><span class="math inline">\(\text{Stern–Brocot}\)</span>
-树是一种维护分数的优雅的结构，包含所有不同的正有理数。这个结构由 <span
-class="math inline">\(\text{Moritz Stern}\)</span> 在 1858 年和 <span
-class="math inline">\(\text{Achille Brocot}\)</span> 在 1861
-年发现。</p>
-<p><strong>解释：</strong></p>
-<p><span class="math inline">\(\text{Stern–Brocot}\)</span>
-树从两个简单的分数开始：<span
-class="math inline">\(\frac{0}{1},\frac{1}{0}\)</span></p>
-<p>其中 <span class="math inline">\(\frac{1}{0}\)</span> 把它当作 <span
-class="math inline">\(\infty\)</span>
-即可，后续会了解这么设计的巧妙之处。</p>
-<p>每次在相邻的两个分数 <span
-class="math inline">\(\frac{a}{b},\frac{c}{d}\)</span> 中间插入一个分数
-<span
-class="math inline">\(\frac{a+c}{b+d}\)</span>，这样就完成了一次迭代，得到下一个序列，于是它就会变成如下形式：
-<span class="math display">\[
-\begin{align}
-\frac{0}{1},&amp;\frac{1}{1},\frac{1}{0} \\
-\frac{0}{1},\frac{1}{2},&amp;\frac{1}{1},\frac{2}{1},\frac{1}{0} \\
-\frac{0}{1},\frac{1}{3},\frac{1}{2},\frac{2}{3},&amp;\frac{1}{1},\frac{3}{2},\frac{2}{1},\frac{3}{1},\frac{1}{0}
-\end{align}
-\]</span> 既然称它为 <span
-class="math inline">\(\text{Stern–Brocot}\)</span>
-树，那我们转化成树的样子，变成如下形式：</p>
-<figure>
-<img src="/images/stern-brocot.png" srcset="/img/loading.gif" lazyload alt="Stern–Brocot树" />
-<figcaption aria-hidden="true">Stern–Brocot树</figcaption>
-</figure>
-<p>其中，实线为树边，虚线为方便看中序遍历而所作的辅助线，此时我们可以把第
-<span class="math inline">\(i\)</span> 层的序列当作是深度为 <span
-class="math inline">\(i-1\)</span> 的 <span
-class="math inline">\(\text{Stern–Brocot}\)</span> 树的中序遍历。</p>
-<p><strong>性质：</strong></p>
-<p>单调性：在每一层的序列中，真分数是单调递增的。</p>
-<p>略证：只需要在 <span
-class="math inline">\(\frac{a}{c}\leq\frac{c}{d}\)</span> 的情况下证明
-<span
-class="math inline">\(\frac{a}{b}\leq\frac{a+c}{b+d}\leq\frac{c}{d}\)</span>
-即可。 <span class="math display">\[
-\frac{a}{b}\leq\frac{c}{d}
-\Rightarrow
-ad\leq bc
-\Rightarrow
-ad+ab\leq bc+ab
-\Rightarrow
-\frac{a}{b}\leq\frac{a+c}{b+d}
-\]</span></p>
-<p><span class="math display">\[
-\frac{a}{b}\leq\frac{c}{d}
-\Rightarrow
-ad\leq bc
-\Rightarrow
-ad+cd\leq bc+cd
-\Rightarrow
-\frac{a+c}{b+d}\leq\frac{c}{d}
-\]</span></p>
-<p>最简性：序列中的分数（除了 <span
-class="math inline">\(\frac{0}{1},\frac{1}{0}\)</span>）都是最简分数。</p>
-<p>略证：</p>
-<p>为证明最简性，我们首先证明对于序列中连续的两个分数 <span
-class="math inline">\(\frac{a}{b},\frac{c}{d}:\ bc-ad=1\)</span></p>
-<p>显然，只需要在 <span class="math inline">\(bc-ad=1\)</span>
-的条件下证明 <span
-class="math inline">\(\frac{a}{b},\frac{a+c}{b+d},\frac{c}{d}\)</span>
-的情况成立即可。 而对于 <span
-class="math inline">\(\frac{a}{b},\frac{a+c}{b+d}\)</span>，有 <span
-class="math inline">\(b(a+c)-a(b+d)=bc-ad=1\)</span>，并且对于 <span
-class="math inline">\(\frac{a+c}{b+d},\frac{c}{d}\)</span>，有 <span
-class="math inline">\(c(b+d)-d(a+c)=bc-ad=1\)</span>。 同时对于 <span
-class="math inline">\(\frac{0}{1},\frac{1}{0}\)</span>
-显然成立，因此结合上述结论，我们就证完了序列中连续的两个分数 <span
-class="math inline">\(\frac{a}{b},\frac{c}{d}\)</span> 满足 <span
-class="math inline">\(bc-ad=1\)</span>。</p>
-<p>得到这个式子之后，通过扩展欧几里得的知识点即可得到 <span
-class="math inline">\(gcd(a,b)=1,gcd(c,d)=1\)</span>。因此序列中的分数都是最简分数。
-同时因为 <span class="math inline">\(bc-ad=1\)</span>，我们可以推出
-<span class="math inline">\(bc=ad+1\)</span> ，即 <span
-class="math inline">\(bc&gt;ad\)</span>，进一步可以得到 <span
-class="math inline">\(\frac{a}{b}&lt;\frac{c}{d}\)</span>。</p>
-<p>有了这两个性质，就能把 <span
-class="math inline">\(\text{Stern–Brocot}\)</span>
-树当成一颗平衡树来做，建立和查询与平衡树一致。</p>
-<h4 id="farey-序列">Farey 序列</h4>
-<p>待补。</p>
+                <h1 id="多项式">多项式</h1>
+<h4 id="多项式基本概述">多项式基本概述</h4>
+<h6 id="多项式的基础概念">多项式的基础概念</h6>
+<p>多项式：对于求和是 <span class="math inline">\(\sum
+a_nx^n\)</span>，如果是有限项相加，称为多项式，记作 <span
+class="math inline">\(f(x)=\sum\limits_{n=0}^ma_nx^n\)</span>。</p>
+<p>（多项式的本质就是一个满足一些运算性质的环）</p>
+<p>对于一般环 <span class="math inline">\(R\)</span>，定义 <span
+class="math inline">\(R\)</span> 上的多项式环 <span
+class="math inline">\(R[x]\)</span>，每个元素 <span
+class="math inline">\(f\)</span> 称为 <span
+class="math inline">\(R\)</span> 上的多项式，可表示为： <span
+class="math display">\[
+f=\langle f_0,f_1,...,f_n\rangle\quad(f_0,f_1,...,f_n\in R)
+\]</span> 一个多项式可以表示为一个有限长的数组 <span
+class="math inline">\((f_0,f_1,...f_n)\)</span> 。
+或者一个只有有限项非零的无限长数组 <span
+class="math inline">\((f_0,f_1,...,f_n,0,0,0,...)\)</span> 。
+多项式的零点个数是有限的，非多项式的零点个数可以是无穷多个，例如：<span
+class="math inline">\(sin\alpha\)</span>
+是一个无穷多项展开的展开式，<span
+class="math inline">\(sin\alpha\)</span> 的展开式不是一个多项式。</p>
+<p>系数表示法：一个 <span class="math inline">\(n\)</span> 次多项式
+<span class="math inline">\(F(x)\)</span> 可以表示为如下形式： <span
+class="math display">\[
+F(x)=f_0+f_1x+f_2x^2+...+f_nx^n=\sum_{i=0}^nf_ix^i
+\]</span> 点值表示法：将 <span class="math inline">\(n\)</span>
+个互不相同的 <span class="math inline">\(x\)</span> 带入多项式，得到
+<span class="math inline">\(n\)</span> 个对应的 <span
+class="math inline">\(y\)</span> 值，则该多项式被这 <span
+class="math inline">\(n\)</span> 组 <span
+class="math inline">\((x,y)\)</span> 唯一确定。</p>
+<p>定理：一个 <span class="math inline">\(n-1\)</span> 次多项式再 <span
+class="math inline">\(n\)</span> 个不同点的取值唯一确定了该多项式，其中
+<span class="math inline">\(y_i=\sum\limits_{j=0}^{n-1}a_jx_i^j\)</span>
+。</p>
 
                 
               </div>
@@ -416,8 +358,8 @@ class="math inline">\(\text{Stern–Brocot}\)</span>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Stern-Brocot 树与 Farey 序列</div>
-      <div>http://example.com/2024/01/15/Stern-Brocot-树与-Farey-序列/</div>
+      <div>多项式</div>
+      <div>http://example.com/2024/01/19/多项式/</div>
     </div>
     <div class="license-meta">
       
@@ -429,7 +371,7 @@ class="math inline">\(\text{Stern–Brocot}\)</span>
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月15日</div>
+          <div>2024年1月19日</div>
         </div>
       
       
@@ -461,9 +403,9 @@ class="math inline">\(\text{Stern–Brocot}\)</span>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/01/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95/" title="类欧几里得算法">
+                      <a href="/2024/01/19/ABC333/" title="ABC333">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">类欧几里得算法</span>
+                        <span class="hidden-mobile">ABC333</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -471,8 +413,8 @@ class="math inline">\(\text{Stern–Brocot}\)</span>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/10/ABC334/" title="ABC334">
-                        <span class="hidden-mobile">ABC334</span>
+                      <a href="/2024/01/19/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" title="生成函数">
+                        <span class="hidden-mobile">生成函数</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
